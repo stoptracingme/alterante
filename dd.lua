@@ -1517,8 +1517,8 @@ local Library do
                     Instances:Create("UIPadding", {
                         Parent = Items["SubPages"].Instance,
                         Name = "\0",
-                        PaddingRight = UDimNew(0, 4),
-                        PaddingLeft = UDimNew(0, 4)
+                        PaddingRight = UDimNew(0, 0),
+                        PaddingLeft = UDimNew(0, 0)
                     })
 
                     Instances:Create("UIListLayout", {
@@ -1527,7 +1527,7 @@ local Library do
                         VerticalAlignment = Enum.VerticalAlignment.Center,
                         FillDirection = Enum.FillDirection.Horizontal,
                         HorizontalFlex = Enum.UIFlexAlignment.Fill,
-                        Padding = UDimNew(0, 6),
+                        Padding = UDimNew(0, 1),
                         SortOrder = Enum.SortOrder.LayoutOrder
                     })
 
@@ -1570,8 +1570,8 @@ local Library do
                         Instances:Create("UIPadding", {
                             Parent = NewColumn.Instance,
                             Name = "\0",
-                            PaddingTop = UDimNew(0, 2),
-                            PaddingBottom = UDimNew(0, 2),
+                            PaddingTop = UDimNew(0, 8),
+                            PaddingBottom = UDimNew(0, 8),
                             PaddingRight = UDimNew(0, 2),
                             PaddingLeft = UDimNew(0, 2)
                         })
@@ -1837,8 +1837,8 @@ local Library do
                     Instances:Create("UIPadding", {
                         Parent = NewColumn.Instance,
                         Name = "\0",
-                        PaddingTop = UDimNew(0, 2),
-                        PaddingBottom = UDimNew(0, 2),
+                        PaddingTop = UDimNew(0, 8),
+                        PaddingBottom = UDimNew(0, 8),
                         PaddingRight = UDimNew(0, 2),
                         PaddingLeft = UDimNew(0, 2)
                     })
@@ -7074,46 +7074,82 @@ local Library do
 
         -- Fade In / Timer / Fade Out
         Library:Thread(function()
-            Items["Notification"].Instance.BackgroundTransparency = 0
-            Items["Stroke"].Instance.Transparency = 0
-            Items["Liner"].Instance.BackgroundTransparency = 0
+            local fadeInInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
+            local fadeOutInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
+            
+            -- Setup animation configurations
+            local animSetting = (Library.Flags and Library.Flags["NotificationAnimation"]) or "Slide"
+            local isSlide = (animSetting == "Slide")
+            local slideOffset = 0
+            if isSlide then
+                slideOffset = (posSetting:find("Right") and 100 or -100)
+                Items["ContentFrame"].Instance.Position = UDim2New(0, slideOffset, 0, 0)
+                Items["Notification"].Instance.ClipsDescendants = true
+            end
+
+            -- Reset transparency values for tween start
+            Items["Notification"].Instance.BackgroundTransparency = 1
+            Items["Stroke"].Instance.Transparency = 1
+            Items["Liner"].Instance.BackgroundTransparency = 1
+            if Items["Icon"] then Items["Icon"].Instance.ImageTransparency = 1 end
+            if Items["Title"] then 
+                Items["Title"].Instance.TextTransparency = 1 
+                if Items["TitleStroke"] then Items["TitleStroke"].Instance.Transparency = 1 end
+            end
+            if Items["Description"] then 
+                Items["Description"].Instance.TextTransparency = 1 
+                if Items["DescStroke"] then Items["DescStroke"].Instance.Transparency = 1 end
+            end
+
+            -- Fade In / Slide In Tweens
+            TweenService:Create(Items["Notification"].Instance, fadeInInfo, { BackgroundTransparency = 0 }):Play()
+            TweenService:Create(Items["Stroke"].Instance, fadeInInfo, { Transparency = 0 }):Play()
+            TweenService:Create(Items["Liner"].Instance, fadeInInfo, { BackgroundTransparency = 0 }):Play()
+            if isSlide then
+                TweenService:Create(Items["ContentFrame"].Instance, fadeInInfo, { Position = UDim2New(0, 0, 0, 0) }):Play()
+            end
 
             if Items["Icon"] then
-                Items["Icon"].Instance.ImageTransparency = 0
+                TweenService:Create(Items["Icon"].Instance, fadeInInfo, { ImageTransparency = 0 }):Play()
             end
             if Items["Title"] then
-                Items["Title"].Instance.TextTransparency = 0
-                if Items["TitleStroke"] then Items["TitleStroke"].Instance.Transparency = 0.6 end
+                TweenService:Create(Items["Title"].Instance, fadeInInfo, { TextTransparency = 0 }):Play()
+                if Items["TitleStroke"] then TweenService:Create(Items["TitleStroke"].Instance, fadeInInfo, { Transparency = 0.6 }):Play() end
             end
             if Items["Description"] then
-                Items["Description"].Instance.TextTransparency = 0.3
-                if Items["DescStroke"] then Items["DescStroke"].Instance.Transparency = 0.6 end
+                TweenService:Create(Items["Description"].Instance, fadeInInfo, { TextTransparency = 0.3 }):Play()
+                if Items["DescStroke"] then TweenService:Create(Items["DescStroke"].Instance, fadeInInfo, { Transparency = 0.6 }):Play() end
             end
 
+            -- Liner progress bar
+            Items["Liner"].Instance.Size = UDim2New(0, 0, 0, 1.5)
             TweenService:Create(Items["Liner"].Instance, TweenInfo.new(Duration, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
                 Size = UDim2New(1, 0, 0, 2)
             }):Play()
 
             task.wait(Duration)
 
-            local fadeInfo = TweenInfo.new(0.25, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
-            TweenService:Create(Items["Notification"].Instance, fadeInfo, { BackgroundTransparency = 1 }):Play()
-            TweenService:Create(Items["Stroke"].Instance, fadeInfo, { Transparency = 1 }):Play()
-            TweenService:Create(Items["Liner"].Instance, fadeInfo, { BackgroundTransparency = 1 }):Play()
+            -- Fade Out / Slide Out Tweens
+            TweenService:Create(Items["Notification"].Instance, fadeOutInfo, { BackgroundTransparency = 1 }):Play()
+            TweenService:Create(Items["Stroke"].Instance, fadeOutInfo, { Transparency = 1 }):Play()
+            TweenService:Create(Items["Liner"].Instance, fadeOutInfo, { BackgroundTransparency = 1 }):Play()
+            if isSlide then
+                TweenService:Create(Items["ContentFrame"].Instance, fadeOutInfo, { Position = UDim2New(0, slideOffset, 0, 0) }):Play()
+            end
 
             if Items["Icon"] then
-                TweenService:Create(Items["Icon"].Instance, fadeInfo, { ImageTransparency = 1 }):Play()
+                TweenService:Create(Items["Icon"].Instance, fadeOutInfo, { ImageTransparency = 1 }):Play()
             end
             if Items["Title"] then
-                TweenService:Create(Items["Title"].Instance, fadeInfo, { TextTransparency = 1 }):Play()
-                if Items["TitleStroke"] then TweenService:Create(Items["TitleStroke"].Instance, fadeInfo, { Transparency = 1 }):Play() end
+                TweenService:Create(Items["Title"].Instance, fadeOutInfo, { TextTransparency = 1 }):Play()
+                if Items["TitleStroke"] then TweenService:Create(Items["TitleStroke"].Instance, fadeOutInfo, { Transparency = 1 }):Play() end
             end
             if Items["Description"] then
-                TweenService:Create(Items["Description"].Instance, fadeInfo, { TextTransparency = 1 }):Play()
-                if Items["DescStroke"] then TweenService:Create(Items["DescStroke"].Instance, fadeInfo, { Transparency = 1 }):Play() end
+                TweenService:Create(Items["Description"].Instance, fadeOutInfo, { TextTransparency = 1 }):Play()
+                if Items["DescStroke"] then TweenService:Create(Items["DescStroke"].Instance, fadeOutInfo, { Transparency = 1 }):Play() end
             end
 
-            task.wait(0.3)
+            task.wait(0.35)
             pcall(function() Items["Notification"]:Clean() end)
         end)
     end)
