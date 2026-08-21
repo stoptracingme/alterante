@@ -1298,6 +1298,139 @@ local Library do
         return true
     end
 
+    Library.ApplyThemeByName = function(self, Name)
+        local LowerName = string.lower(Name)
+        local ThemeColors = nil
+        
+        if LowerName == "preset" then
+            ThemeColors = {
+                ["Background"] = FromRGB(18, 18, 18),
+                ["Border"] = FromRGB(30, 30, 30),
+                ["Inline"] = FromRGB(22, 22, 22),
+                ["Hovered Element"] = FromRGB(28, 28, 28),
+                ["Page Background"] = FromRGB(16, 16, 16),
+                ["Outline"] = FromRGB(40, 40, 40),
+                ["Element"] = FromRGB(24, 24, 24),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(240, 240, 240),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(150, 150, 150),
+                ["Accent"] = FromRGB(210, 180, 80)
+            }
+        elseif LowerName == "ice" then
+            ThemeColors = {
+                ["Background"] = FromRGB(16, 18, 22),
+                ["Border"] = FromRGB(26, 30, 38),
+                ["Inline"] = FromRGB(20, 23, 29),
+                ["Hovered Element"] = FromRGB(26, 31, 40),
+                ["Page Background"] = FromRGB(14, 15, 18),
+                ["Outline"] = FromRGB(35, 42, 53),
+                ["Element"] = FromRGB(22, 26, 33),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(240, 245, 255),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(140, 150, 165),
+                ["Accent"] = FromRGB(140, 220, 255)
+            }
+        elseif LowerName == "valedo" then
+            ThemeColors = {
+                ["Background"] = FromRGB(18, 16, 20),
+                ["Border"] = FromRGB(30, 26, 34),
+                ["Inline"] = FromRGB(22, 20, 25),
+                ["Hovered Element"] = FromRGB(30, 26, 35),
+                ["Page Background"] = FromRGB(15, 14, 17),
+                ["Outline"] = FromRGB(42, 36, 48),
+                ["Element"] = FromRGB(25, 22, 29),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(240, 235, 245),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(150, 140, 160),
+                ["Accent"] = FromRGB(180, 140, 255)
+            }
+        elseif LowerName == "classic" then
+            ThemeColors = {
+                ["Background"] = FromRGB(22, 22, 22),
+                ["Border"] = FromRGB(35, 35, 35),
+                ["Inline"] = FromRGB(26, 26, 26),
+                ["Hovered Element"] = FromRGB(34, 34, 34),
+                ["Page Background"] = FromRGB(18, 18, 18),
+                ["Outline"] = FromRGB(48, 48, 48),
+                ["Element"] = FromRGB(28, 28, 28),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(245, 245, 245),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(155, 155, 155),
+                ["Accent"] = FromRGB(70, 130, 180)
+            }
+        elseif LowerName == "sunset" then
+            ThemeColors = {
+                ["Background"] = FromRGB(20, 17, 16),
+                ["Border"] = FromRGB(33, 28, 26),
+                ["Inline"] = FromRGB(24, 21, 19),
+                ["Hovered Element"] = FromRGB(32, 28, 25),
+                ["Page Background"] = FromRGB(17, 15, 14),
+                ["Outline"] = FromRGB(46, 38, 35),
+                ["Element"] = FromRGB(27, 23, 21),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(245, 240, 235),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(160, 150, 140),
+                ["Accent"] = FromRGB(255, 120, 70)
+            }
+        elseif LowerName == "moonshine" then
+            ThemeColors = {
+                ["Background"] = FromRGB(19, 19, 17),
+                ["Border"] = FromRGB(32, 32, 28),
+                ["Inline"] = FromRGB(23, 23, 20),
+                ["Hovered Element"] = FromRGB(31, 31, 27),
+                ["Page Background"] = FromRGB(16, 16, 14),
+                ["Outline"] = FromRGB(45, 45, 39),
+                ["Element"] = FromRGB(26, 26, 23),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(245, 245, 240),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(160, 160, 150),
+                ["Accent"] = FromRGB(255, 230, 150)
+            }
+        elseif LowerName == "ermoa" then
+            ThemeColors = {
+                ["Background"] = FromRGB(16, 19, 18),
+                ["Border"] = FromRGB(27, 32, 30),
+                ["Inline"] = FromRGB(20, 24, 22),
+                ["Hovered Element"] = FromRGB(27, 32, 29),
+                ["Page Background"] = FromRGB(14, 16, 15),
+                ["Outline"] = FromRGB(38, 45, 41),
+                ["Element"] = FromRGB(22, 27, 25),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(240, 245, 242),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(140, 155, 148),
+                ["Accent"] = FromRGB(120, 230, 180)
+            }
+        elseif LowerName == "blood" then
+            ThemeColors = {
+                ["Background"] = FromRGB(19, 15, 15),
+                ["Border"] = FromRGB(32, 25, 25),
+                ["Inline"] = FromRGB(23, 19, 19),
+                ["Hovered Element"] = FromRGB(31, 25, 25),
+                ["Page Background"] = FromRGB(16, 13, 13),
+                ["Outline"] = FromRGB(45, 35, 35),
+                ["Element"] = FromRGB(26, 21, 21),
+                ["Gradient"] = FromRGB(255, 255, 255),
+                ["Text"] = FromRGB(245, 235, 235),
+                ["Text Stroke"] = FromRGB(0, 0, 0),
+                ["Placeholder Text"] = FromRGB(160, 140, 140),
+                ["Accent"] = FromRGB(230, 60, 60)
+            }
+        end
+        
+        if ThemeColors then
+            for Key, Value in pairs(ThemeColors) do
+                self:ChangeTheme(Key, Value)
+            end
+        end
+    end
+
     Library.IsMouseOverFrame = function(self, Frame, XOffset, YOffset)
         Frame = Frame.Instance
         XOffset = XOffset or 0 
@@ -1558,7 +1691,7 @@ local Library do
                             ScrollBarImageColor3 = FromRGB(0, 0, 0),
                             Active = true,
                             AutomaticCanvasSize = Enum.AutomaticSize.Y,
-                            ScrollBarThickness = 3,
+                            ScrollBarThickness = 0,
                             BackgroundTransparency = 1,
                             Size = UDim2New(1, 0, 1, 0),
                             BackgroundColor3 = FromRGB(255, 255, 255),
@@ -1825,7 +1958,7 @@ local Library do
                         ScrollBarImageColor3 = FromRGB(0, 0, 0),
                         Active = true,
                         AutomaticCanvasSize = Enum.AutomaticSize.Y,
-                        ScrollBarThickness = 3,
+                        ScrollBarThickness = 0,
                         BackgroundTransparency = 1,
                         Size = UDim2New(1, 0, 1, 0),
                         BackgroundColor3 = FromRGB(255, 255, 255),
@@ -5372,8 +5505,8 @@ local Library do
             Items["Watermark"] = Instances:Create("Frame", {
                 Parent = Library.Holder.Instance,
                 Name = "\0",
-                AnchorPoint = Vector2New(0.5, 1),
-                Position = UDim2New(0.5, 0, 1, -16),
+                AnchorPoint = Vector2New(1, 0),
+                Position = UDim2New(1, -12, 0, 12),
                 BorderColor3 = FromRGB(28, 34, 41),
                 BorderSizePixel = 1,
                 AutomaticSize = Enum.AutomaticSize.XY,
@@ -5406,7 +5539,7 @@ local Library do
                 TextColor3 = FromRGB(235, 235, 235),
                 BorderColor3 = FromRGB(0, 0, 0),
                 Text = Name,
-                Position = UDim2New(0, 0, 0, 4),
+                Position = UDim2New(0, 0, 0, 0),
                 BackgroundTransparency = 1,
                 TextXAlignment = Enum.TextXAlignment.Left,
                 BorderSizePixel = 0,
@@ -5419,13 +5552,13 @@ local Library do
                 Parent = Items["Watermark"].Instance,
                 Name = "\0",
                 AnchorPoint = Vector2New(0, 0),
-                Position = UDim2New(0, 0, 1, 2),
+                Position = UDim2New(0, -6, 0, -4),
                 BorderColor3 = FromRGB(0, 0, 0),
-                Size = UDim2New(0, 0, 0, 1),
+                Size = UDim2New(1, 12, 0, 2),
                 BorderSizePixel = 0,
                 BackgroundColor3 = FromRGB(190, 120, 225),
-                BackgroundTransparency = 1
-            })
+                BackgroundTransparency = 0
+            })  Items["Liner"]:AddToTheme({BackgroundColor3 = "Accent"})
         end
 
         function Watermark:SetVisibility(Bool)
@@ -5434,9 +5567,6 @@ local Library do
 
         function Watermark:SetText(Text)
             Items["Text"].Instance.Text = Text
-            local bounds = Items["Text"].Instance.TextBounds
-            Items["Liner"].Instance.Size = UDim2New(0, math.max(bounds.X + 10, 8), 0, 1.5)
-            Items["Liner"].Instance.Position = UDim2New(0, 0, 1, 1)
         end
 
         return Watermark
@@ -5468,6 +5598,27 @@ local Library do
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Border
             }):AddToTheme({Color = "Outline"})
 
+            Instances:Create("UIPadding", {
+                Parent = Items["KeybindList"].Instance,
+                Name = "\0",
+                PaddingTop = UDimNew(0, 8),
+                PaddingBottom = UDimNew(0, 8),
+                PaddingRight = UDimNew(0, 8),
+                PaddingLeft = UDimNew(0, 8)
+            })
+
+            Items["Liner"] = Instances:Create("Frame", {
+                Parent = Items["KeybindList"].Instance,
+                Name = "\0",
+                AnchorPoint = Vector2New(0, 0),
+                Position = UDim2New(0, -8, 0, -8),
+                BorderColor3 = FromRGB(0, 0, 0),
+                Size = UDim2New(1, 16, 0, 2),
+                BorderSizePixel = 0,
+                BackgroundColor3 = FromRGB(190, 120, 225),
+                BackgroundTransparency = 0
+            })  Items["Liner"]:AddToTheme({BackgroundColor3 = "Accent"})
+
             Items["Title"] = Instances:Create("TextLabel", {
                 Parent = Items["KeybindList"].Instance,
                 Name = "\0",
@@ -5485,26 +5636,6 @@ local Library do
             })  Items["Title"]:AddToTheme({TextColor3 = "Text"})
 
             Items["Title"]:TextBorder()
-
-            Instances:Create("UIPadding", {
-                Parent = Items["KeybindList"].Instance,
-                Name = "\0",
-                PaddingTop = UDimNew(0, 8),
-                PaddingBottom = UDimNew(0, 8),
-                PaddingRight = UDimNew(0, 8),
-                PaddingLeft = UDimNew(0, 8)
-            })
-
-            Items["Liner"] = Instances:Create("Frame", {
-                Parent = Items["KeybindList"].Instance,
-                Name = "\0",
-                Position = UDim2New(0, 0, 0, 20),
-                BorderColor3 = FromRGB(0, 0, 0),
-                Size = UDim2New(0, 0, 0, 0),
-                BorderSizePixel = 0,
-                BackgroundColor3 = FromRGB(202, 243, 255),
-                BackgroundTransparency = 1
-            })
 
             Items["Content"] = Instances:Create("Frame", {
                 Parent = Items["KeybindList"].Instance,
@@ -5789,18 +5920,7 @@ local Library do
                 end)
             end
 
-            if Library.KeyList and Library.KeyList.SetVisibility then
-                if Bool then
-                    local flags = Library.Flags or {}
-                    local showKeylist = true
-                    if flags["ShowKL"] ~= nil then
-                        showKeylist = flags["ShowKL"] ~= false
-                    end
-                    Library.KeyList:SetVisibility(showKeylist)
-                else
-                    Library.KeyList:SetVisibility(false)
-                end
-            end
+
 
             UserInputService.MouseIconEnabled = true
         end
