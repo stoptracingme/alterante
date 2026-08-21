@@ -1,37 +1,16 @@
---!nonstrict
---[[
-    scoot ui library
-    made by samet
-    https://discord.gg/VhvTd5HV8d
 
-    example/documentation is at the bottom
-]]
 
---[[
-    LPH OPTIMIZATION MACROS & DOCUMENTATION
-    Source: https://docs.luarmor.net/insane-optimization-tricks-and-lph-macro-usage
-    
-    This library uses LPH_NO_VIRTUALIZE for performance-critical sections:
-    - RenderStepped/Heartbeat connections
-    - __index/__namecall hooks
-    - Functions called 30+ times per second
-    - While true loops with no delay
-    - GC scan loops
-    
-    DO NOT wrap entire script in LPH_NO_VIRTUALIZE - only use on
-    performance-critical code to avoid defeating obfuscation.
-    
-    Always initialize LPH macros at script start for compatibility.
-]]
 
--- Safe unload check - only unload if Library is fully initialized
+
+
+
 if getgenv().UnloadAlternate then
     pcall(getgenv().UnloadAlternate)
 elseif getgenv().Library and getgenv().Library.Unload then
     pcall(getgenv().Library.Unload, getgenv().Library)
 end
 
--- Declare globals for compiler
+
 local env = getgenv()
 local LPH_OBFUSCATED = env.LPH_OBFUSCATED or false
 if not LPH_OBFUSCATED then
@@ -126,7 +105,7 @@ local Library do
             ["Checkers"] = { "Checkers.png", "https://github.com/sametexe001/images/blob/main/checkers.png?raw=true" },
         },
 
-        -- Ignore below
+        
         Pages = { },
         Sections = { },
 
@@ -274,14 +253,14 @@ local Library do
 
     Library.Theme = TableClone(Themes["Preset"])
 
-    -- Folders
+    
     for Index, Value in Library.Folders do 
         if not isfolder(Value) then
             makefolder(Value)
         end
     end
 
-    -- Images
+    
     for Index, Value in Library.Images do 
         local ImageData = Value
 
@@ -293,7 +272,7 @@ local Library do
         end
     end
 
-    -- Tweening
+    
     local Tween = { } do
         Tween.__index = Tween
 
@@ -390,7 +369,7 @@ local Library do
         end
     end
 
-    -- Instances
+    
     local Instances = { } do
         Instances.__index = Instances
 
@@ -778,7 +757,7 @@ local Library do
         end
     end
 
-    -- Custom font
+    
     local CustomFont = { } do
         function CustomFont:New(Name, Weight, Style, Data)
             if isfile(Library.Folders.Assets .. "/" .. Name .. ".json") then
@@ -870,7 +849,7 @@ local Library do
             getgenv()._AlternateCleanup = nil
         end
 
-        -- Close all open dropdown frames first
+        
         if self.OpenFrames then
             for Frame, Value in pairs(self.OpenFrames) do
                 if Value and Value.SetOpen then
@@ -880,7 +859,7 @@ local Library do
             self.OpenFrames = {}
         end
 
-        -- Disconnect all connections (support both ipairs and pairs)
+        
         if self.Connections then
             for _, Value in pairs(self.Connections) do
                 if Value and Value.Connection and typeof(Value.Connection.Disconnect) == "function" then
@@ -890,7 +869,7 @@ local Library do
             self.Connections = {}
         end
 
-        -- Close all active threads
+        
         if self.Threads then
             for _, Value in pairs(self.Threads) do
                 if Value and Value ~= coroutine.running() and coroutine.status(Value) ~= "dead" then
@@ -900,7 +879,7 @@ local Library do
             self.Threads = {}
         end
 
-        -- Destroy UI holders
+        
         if self.Holder and self.Holder.Instance then
             pcall(function()
                 if self.Holder.Instance:IsA("ScreenGui") then
@@ -923,7 +902,7 @@ local Library do
             pcall(function() self.NotifHolder.Instance:Destroy() end)
         end
 
-        -- Clear all references
+        
         self.Holder = nil
         self.UnusedHolder = nil
         self.NotifHolder = nil
@@ -939,10 +918,10 @@ local Library do
         self.SetFlags = {}
         self.CurrentPage = nil
 
-        -- Clear global reference
+        
         getgenv().Library = nil
 
-        -- Restore mouse icon
+        
         pcall(function() UserInputService.MouseIconEnabled = true end)
     end
 
@@ -1446,14 +1425,14 @@ local Library do
         return Start + (Finish - Start) * Time
     end
 
-    -- Change the menu toggle keybind at runtime.
-    -- Pass an Enum.KeyCode or Enum.UserInputType value.
-    -- e.g. Library:SetMenuKeybind(Enum.KeyCode.RightAlt)
+    
+    
+    
     Library.SetMenuKeybind = function(self, Key)
         Library.MenuKeybind = tostring(Key)
     end
 
-    -- Components
+    
     local Components = { } do
         Components.Window = function(self, Data)
             local Items = { } do
@@ -1777,7 +1756,7 @@ local Library do
                 local fadeTime = Data.Window.FadeTime or 0
 
                 if fadeTime <= 0 then
-                    -- Instant visibility optimization: skip loop entirely to prevent FPS lag and preserve theme transparencies
+                    
                     Debounce = false
                 else
                     for Index, Value in AllInstances do 
@@ -2033,7 +2012,7 @@ local Library do
                 local fadeTime = Data.Window.FadeTime or 0
 
                 if fadeTime <= 0 then
-                    -- Instant visibility optimization: skip loop entirely to prevent FPS lag and preserve theme transparencies
+                    
                     Debounce = false
                 else
                     for Index, Value in AllInstances do 
@@ -2462,7 +2441,7 @@ local Library do
                     Name = "\0",
                     BackgroundTransparency = 1,
                     BorderColor3 = FromRGB(0, 0, 0),
-                    Size = UDim2New(1, 0, 0, 22),
+                    Size = UDim2New(1, 0, 0, 28),
                     BorderSizePixel = 0,
                     BackgroundColor3 = FromRGB(255, 255, 255),
                     Visible = Data.Visible ~= false
@@ -2593,18 +2572,7 @@ local Library do
                 end
             end
 
-            --[[
-            local PageSearchData = Library.SearchItems[Data.Page]
-
-            if PageSearchData then
-                local SearchData = {
-                    Element = Items["Slider"],
-                    Name = Data.Name,
-                }
-
-                TableInsert(PageSearchData, SearchData)
-            end
-            --]]
+            
 
             local InputChanged
 
@@ -2703,7 +2671,8 @@ local Library do
                     Name = "\0",
                     BorderColor3 = FromRGB(0, 0, 0),
                     BackgroundTransparency = 1,
-                    Position = UDim2New(0, Items["Text"].Instance.TextBounds.X + 8, 0, 0),
+                    AnchorPoint = Vector2New(1, 0),
+                    Position = UDim2New(1, -6, 0, 0),
                     Size = UDim2New(0, 0, 1, 0),
                     BorderSizePixel = 0,
                     AutomaticSize = Enum.AutomaticSize.X,
@@ -2972,7 +2941,7 @@ local Library do
                 Debounce = true 
 
                 if Dropdown.IsOpen then 
-                    -- Calculate how many items to show (max 5)
+                    
                     local itemCount = 0
                     for _, Value in pairs(Dropdown.Options) do
                         if Dropdown.View == "Favorites" then
@@ -2984,8 +2953,8 @@ local Library do
                         end
                     end
                     local maxItemsToShow = math.min(itemCount, 8)
-                    local itemHeight = 18 + 3 -- item height + padding
-                    local paddingTotal = 14 -- top + bottom padding
+                    local itemHeight = 18 + 3 
+                    local paddingTotal = 14 
                     local menuOffset = Data.ShowFavorites and 26 + 5 or 0
                     local calculatedHeight = (maxItemsToShow * itemHeight) + paddingTotal + menuOffset
                     
@@ -3611,7 +3580,7 @@ local Library do
             }):AddToTheme({Color = "Border"})
         end
 
-        Components.Colorpicker = function(self, Data) -- poetry warning (╯°□°)╯
+        Components.Colorpicker = function(self, Data) 
             local Colorpicker = {
                 IsOpen = false,
 
@@ -4706,7 +4675,7 @@ local Library do
                     Keybind.Value = TextToDisplay
                     Items["KeyButton"].Instance.Text = TextToDisplay
 
-                    -- If this keybind is marked as the menu key, keep Library.MenuKeybind in sync
+                    
                     if Data.IsMenuKey then
                         Library.MenuKeybind = Keybind.Key
                     end
@@ -4742,7 +4711,7 @@ local Library do
                     Keybind.Value = TextToDisplay
                     Items["KeyButton"].Instance.Text = TextToDisplay
 
-                    -- Sync menu keybind if flagged
+                    
                     if Data.IsMenuKey then
                         Library.MenuKeybind = Keybind.Key
                     end
@@ -5142,7 +5111,7 @@ local Library do
             return Textbox, Items
         end
 
-        Components.Searchbox = function(self, Data) -- just pasted the entire dropdown fucntion with different instances, i cant be asked to make a whole new functionality
+        Components.Searchbox = function(self, Data) 
             local Dropdown = {
                 Flag = Data.Flag, 
                 Value = { },
@@ -5497,7 +5466,7 @@ local Library do
         end
     end
 
-    -- Library components
+    
     Library.Watermark = function(self, Name)
         local Watermark = { }
 
@@ -5670,8 +5639,8 @@ local Library do
                 Items["KeybindList"].Instance.Visible = false
             else
                 Items["KeybindList"].Instance.Visible = true
-                -- Only set height; X is driven by AutomaticSize so the frame
-                -- expands to fit whichever keybind label is widest.
+                
+                
                         local height = 32 + (activeCount * 15) + ((activeCount - 1) * 2)
                 Items["KeybindList"].Instance.Size = UDim2New(0, 0, 0, height)
             end
@@ -5908,10 +5877,10 @@ local Library do
             end
 
             Window.IsOpen = Bool
-            -- Only toggle the top-level window frame. Children that live in
-            -- UnusedHolder (inactive pages/subpages) must NOT be touched here;
-            -- the recursive SetGuiVisibility was making those orphaned frames
-            -- visible and causing section bleed across tabs/subtabs after hide.
+            
+            
+            
+            
             Items["Window"].Instance.Visible = Bool
 
             if Items["MouseBackground"] and Items["MouseBackground"].Instance then
@@ -6206,7 +6175,7 @@ local Library do
             btn.Instance.MouseButton1Down:Connect(function()
                 if Playerlist.Player then
                     if Playerlist.Player == game.Players.LocalPlayer then
-                        return -- Do not work on self
+                        return 
                     end
                     if Data.Callback then
                         Library:SafeCall(Data.Callback, Playerlist.Player, name)
@@ -6636,7 +6605,7 @@ local Library do
             Page = Button.Page
         })
         
-        -- If Name and Callback are provided, add the button directly
+        
         if Name and Callback then
             NewButton:Add(Name, Callback)
         end
@@ -7000,7 +6969,7 @@ local Library do
         end
         Duration = tonumber(Duration) or (Library.Flags and tonumber(Library.Flags["NotificationDuration"])) or 3
 
-        -- Position from Library.Flags["NotificationPosition"]
+        
         local posSetting = (Library.Flags and Library.Flags["NotificationPosition"]) or "Top Left"
         if Library.NotifHolder and Library.NotifHolder.Instance then
             local holder = Library.NotifHolder.Instance
@@ -7038,7 +7007,7 @@ local Library do
 
         local Items = {}
 
-        -- Main Notification Frame
+        
         Items["Notification"] = Instances:Create("Frame", {
             Parent = Library.NotifHolder.Instance,
             Name = "\0",
@@ -7071,7 +7040,7 @@ local Library do
             PaddingRight = UDimNew(0, 10)
         })
 
-        -- Content Frame (Horizontal layout for Icon + Text)
+        
         Items["ContentFrame"] = Instances:Create("Frame", {
             Parent = Items["Notification"].Instance,
             Name = "\0",
@@ -7090,7 +7059,7 @@ local Library do
             SortOrder = Enum.SortOrder.LayoutOrder
         })
 
-        -- Optional icon, enlarged 6.5x from the old 12px size
+        
         if Icon and type(Icon) == "string" and Icon ~= "" then
             Items["Icon"] = Instances:Create("ImageLabel", {
                 Parent = Items["ContentFrame"].Instance,
@@ -7106,7 +7075,7 @@ local Library do
             Items["Icon"]:AddToTheme({ImageColor3 = "Accent"})
         end
 
-        -- Text Container
+        
         Items["TextContainer"] = Instances:Create("Frame", {
             Parent = Items["ContentFrame"].Instance,
             Name = "\0",
@@ -7180,7 +7149,7 @@ local Library do
             Items["TitleStroke"].Instance.Transparency = 1
         end
 
-        -- Progress Timer Line
+        
         Items["Liner"] = Instances:Create("Frame", {
             Parent = Items["Notification"].Instance,
             Name = "\0",
@@ -7192,12 +7161,12 @@ local Library do
             BackgroundTransparency = 1
         })
 
-        -- Fade In / Timer / Fade Out
+        
         Library:Thread(function()
             local fadeInInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.Out)
             local fadeOutInfo = TweenInfo.new(0.3, Enum.EasingStyle.Quad, Enum.EasingDirection.In)
             
-            -- Setup animation configurations
+            
             local animSetting = (Library.Flags and Library.Flags["NotificationAnimation"]) or "Slide"
             local isSlide = (animSetting == "Slide")
             local slideOffset = 0
@@ -7207,7 +7176,7 @@ local Library do
                 Items["Notification"].Instance.ClipsDescendants = true
             end
 
-            -- Reset transparency values for tween start
+            
             Items["Notification"].Instance.BackgroundTransparency = 1
             Items["Stroke"].Instance.Transparency = 1
             Items["Liner"].Instance.BackgroundTransparency = 1
@@ -7221,7 +7190,7 @@ local Library do
                 if Items["DescStroke"] then Items["DescStroke"].Instance.Transparency = 1 end
             end
 
-            -- Fade In / Slide In Tweens
+            
             TweenService:Create(Items["Notification"].Instance, fadeInInfo, { BackgroundTransparency = 0 }):Play()
             TweenService:Create(Items["Stroke"].Instance, fadeInInfo, { Transparency = 0 }):Play()
             TweenService:Create(Items["Liner"].Instance, fadeInInfo, { BackgroundTransparency = 0 }):Play()
@@ -7241,7 +7210,7 @@ local Library do
                 if Items["DescStroke"] then TweenService:Create(Items["DescStroke"].Instance, fadeInInfo, { Transparency = 0.6 }):Play() end
             end
 
-            -- Liner progress bar
+            
             Items["Liner"].Instance.Size = UDim2New(0, 0, 0, 1.5)
             TweenService:Create(Items["Liner"].Instance, TweenInfo.new(Duration, Enum.EasingStyle.Linear, Enum.EasingDirection.Out), {
                 Size = UDim2New(1, 0, 0, 2)
@@ -7249,7 +7218,7 @@ local Library do
 
             task.wait(Duration)
 
-            -- Fade Out / Slide Out Tweens
+            
             TweenService:Create(Items["Notification"].Instance, fadeOutInfo, { BackgroundTransparency = 1 }):Play()
             TweenService:Create(Items["Stroke"].Instance, fadeOutInfo, { Transparency = 1 }):Play()
             TweenService:Create(Items["Liner"].Instance, fadeOutInfo, { BackgroundTransparency = 1 }):Play()
