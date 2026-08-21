@@ -3238,11 +3238,15 @@ local Library do
             end
 
             function Dropdown:Refresh(List)
-                for Index, Value in Dropdown.Options do 
-                    Dropdown:Remove(Value.Name)
+                local toRemove = {}
+                for Name, Value in pairs(Dropdown.Options) do 
+                    table.insert(toRemove, Name)
+                end
+                for _, Name in ipairs(toRemove) do
+                    Dropdown:Remove(Name)
                 end
 
-                for Index, Value in List do 
+                for Index, Value in ipairs(List) do 
                     Dropdown:Add(Value)
                 end
             end
